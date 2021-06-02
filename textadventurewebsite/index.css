@@ -51,6 +51,11 @@ body {
   display:none;
 }
 
+#uploadLabel:hover {
+  background-color: rgb(71, 219, 214);
+  cursor: pointer;
+}
+
 #editor {
   overflow:hidden;
   position: absolute;
@@ -185,12 +190,16 @@ body {
 }
 
 #First:hover {
-  box-shadow: 0 1px 4px
+  box-shadow: 0 1px 4px;
 }
 
 #FirstText {
   margin: 1.5vw;
   word-wrap: break-word;
+}
+
+#FirstText:hover {
+  cursor: text;
 }
 
 .absText {
