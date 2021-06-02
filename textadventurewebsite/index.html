@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Text Adventure Editor</title>
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+  <div class="master">
+    <div id="sidebar">
+      <div id="adders">
+        <button type="button" id="arrowAdder" class="tdButtons">
+          <img draggable="false" src="assets/arrow.png" alt="Add arrow button" width="75" height="75">
+        </button>
+        <button type="button" id="nodeAdder" class="tdButtons">
+          <img draggable="false" src="assets/node.png" alt="Add node button" width="75" height="75">
+        </button>
+      </div>
+      <div id="file">
+        <div id="First">
+          <div id="FirstText" contenteditable="true"></div>
+        </div>
+        <button type="button" id="export" class="tdButtons">
+          <div class="absText">Export</div>
+        </button>
+        <label for="upload" id="uploadLabel" class="tdButtons"><div class="absText">Upload Json</div></label>
+        <input type="file" id="upload" style="position:relative; top:20px; width: 50%;">
+      </div>
+    </div>
+    <div id="editor">
+      <div id="point"></div>
+      <div id="nodeContainer" style="top:0px;left:0px">
+        <div id="baseNode" class="node">
+          <div class="head">
+            <h2 class="nodeTitle">Title</h2>
+            <hr class="nodeBreaker">
+            <p class="nodeBody">Body</p>
+          </div>
+          <div class="tail">
+            <div class="vline"></div>
+            <div class="option">Option 1</div>
+            <div class="option">Option 2</div>
+          </div>
+        </div>
+        <div id="lineRenderer">
+          <div class="arrow">
+            <div class="triangle-up"></div>
+            <div class="arrowLine"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="nodeEdit">
+      <div id="Station">
+        <h1 id="titleEditor" contentEditable="true" >Title</h1>
+        <p id="bodyEditor" contentEditable="true" >Body</p>
+        <ol id="optionEditor">
+          <li class="optionItem">
+            <ol>
+              <li class="logic" contentEditable="true" >True</li>
+              <hr>
+              <li class="phrase" contentEditable="true" >Option1</li>
+              <button class="remove"> - </button>
+            </ol>
+          </li>
+          <li class="optionItem">
+            <ol>
+              <li class="logic" contentEditable="true" >True</li>
+              <hr>
+              <li class="phrase" contentEditable="true" >Option2</li>              
+              <button class="remove"> - </button>
+            </ol>
+          </li>
+        </ol>
+        <button id="optionAdder">Add option</button>
+      </div>
+    </div>
+  </div>
+  <script src="index.js"></script>
+  <script> </script>
+</body>
+</html>
