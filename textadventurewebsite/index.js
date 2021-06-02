@@ -6,7 +6,7 @@ var lineRenderer = document.getElementById("lineRenderer");
   var nodeAdder = document.getElementById("nodeAdder");
   var baseNode = document.getElementById("baseNode");
   var point = document.getElementById("point");
-  var nodeContainer = document.getElementById("nodeContainer")
+  var nodeContainer = document.getElementById("nodeContainer");
   var baseArrow = document.getElementsByClassName("arrow")[0];
   var nodes = [];
   var nodeReferences = [];
@@ -18,7 +18,7 @@ var lineRenderer = document.getElementById("lineRenderer");
   var middleDownInEditor = false;
   var line = false;
   var titles = 0;
-  var mouse_pos = {x:0, y:0}
+  var mouse_pos = {x:0, y:0};
   var arrowReferences = [];
   var arrows = [];
   var editing = false;
@@ -47,13 +47,13 @@ var lineRenderer = document.getElementById("lineRenderer");
   optionAdder.addEventListener("click", addOption);
   titleEditor.addEventListener("input", titleEditorChanged);
   bodyEditor.addEventListener("input", bodyEditorChanged);
-  exportButton.addEventListener("click", Export)
-  uploadButton.addEventListener("change", Uploaded)
+  exportButton.addEventListener("click", Export);
+  uploadButton.addEventListener("change", Uploaded);
 
 function begin() {
   nodes = [];
   for (i=0; i < nodeReferences.length; i++) {
-    nodeReferences[i].parentNode.removeChild(nodeReferences[i])
+    nodeReferences[i].parentNode.removeChild(nodeReferences[i]);
   }
   nodeReferences = [];
   mode = 0;
@@ -64,9 +64,9 @@ function begin() {
   middleDownInEditor = false;
   line = false;
   titles = 0;
-  mouse_pos = {x:0, y:0}
+  mouse_pos = {x:0, y:0};
   for (i=0; i < arrowReferences.length; i++) {
-    arrowReferences[i].parentNode.removeChild(arrowReferences[i])
+    arrowReferences[i].parentNode.removeChild(arrowReferences[i]);
   }
   arrowReferences = [];
   arrows = [];
@@ -77,12 +77,12 @@ function begin() {
 }
 
 function Uploaded(event) {
-  begin()
+  begin();
   importedFile = this.files[0];
   var reader = new FileReader();
   reader.onload = function() {
     var fileContent = JSON.parse(reader.result);
-    loadData(fileContent)
+    loadData(fileContent);
   };
   reader.readAsText(importedFile); 
 }
@@ -90,7 +90,7 @@ function Uploaded(event) {
 function loadData(data) {
   document.getElementById("FirstText").innerHTML = data.first;
   title = data.titles;
-  for (i in data.meta) {
+  for (var i in data.meta) {
     var nw = baseNode.cloneNode(true);
     nodeReferences.push(nw);
     nodeContainer.appendChild(nw);
@@ -98,7 +98,7 @@ function loadData(data) {
     nw.style.top = data.meta[i].y*unit + "px";
     nw.style.left = data.meta[i].x*unit + "px";
     nw.style.transform = "translateY(-50%) translateX(-50%)";
-    nw.getElementsByClassName("nodeTitle")[0].innerHTML = i
+    nw.getElementsByClassName("nodeTitle")[0].innerHTML = i;
     nw.addEventListener("dblclick", function(event) {
       if (mode == 0) {
         document.getElementById("nodeEdit").style.display = "flex";
@@ -106,11 +106,11 @@ function loadData(data) {
         editorAppearance();
         updateNode(editing);
       }
-    })
+    });
     nodes.push({x:data.meta[i].x, y:data.meta[i].y, title:i, body:data.meta[i].body, options:data.meta[i].options});
   }
-  drawArrows()
-  positionNodes()
+  drawArrows();
+  positionNodes();
 }
 
 function saveData (jsonData, fileName) {
@@ -126,7 +126,7 @@ function saveData (jsonData, fileName) {
 }
 
 function Export() {
-  saveData(convertToJson(), "TextAdventure.json")
+  saveData(convertToJson(), "TextAdventure.json");
 }
 
 function bodyEditorChanged() {
@@ -135,9 +135,17 @@ function bodyEditorChanged() {
   updateNode(editing);
 }
 
-function titleEditorChanged() {
+function titleEditorChanged(event) {
   var node = nodes[nodeReferences.indexOf(editing)];
+  for (i = 0; i < nodes.length; i++) {
+    for (j = 0; j < nodes[i].options.length; j ++) {
+      if (nodes[i].options[j].link == node.title) {
+        nodes[i].options[j].link = titleEditor.innerHTML;
+      } 
+    }
+  }
   node.title = titleEditor.innerHTML;
+  
   updateNode(editing);
 }
 
@@ -150,7 +158,7 @@ function addOption(event) {
 
 function optionLogicChange(event) {
   var node = nodes[nodeReferences.indexOf(editing)];
-  node.options[editorOptions.indexOf(this.parentNode.parentNode)].logic = this.innerHTML
+  node.options[editorOptions.indexOf(this.parentNode.parentNode)].logic = this.innerHTML;
   updateNode(editing);
 }
 
@@ -162,7 +170,7 @@ function optionPhraseChange(event) {
 
 function removeOption(event) {
   var node = nodes[nodeReferences.indexOf(editing)];
-  node.options.splice(editorOptions.indexOf(this.parentNode.parentNode), 1)
+  node.options.splice(editorOptions.indexOf(this.parentNode.parentNode), 1);
   updateNode(editing);
   editorAppearance();
 }
@@ -176,10 +184,10 @@ function editorAppearance() {
   for (i = 0; i < node.options.length; i++) {
     var newOption = baseoptionItem.cloneNode(true);
     newOption.getElementsByClassName("logic")[0].innerHTML = node.options[i].logic;
-    newOption.getElementsByClassName("logic")[0].addEventListener("input", optionLogicChange)
+    newOption.getElementsByClassName("logic")[0].addEventListener("input", optionLogicChange);
     newOption.getElementsByClassName("phrase")[0].innerHTML = node.options[i].phrase;
-    newOption.getElementsByClassName("phrase")[0].addEventListener("input", optionPhraseChange)
-    newOption.getElementsByClassName("remove")[0].addEventListener("click", removeOption)
+    newOption.getElementsByClassName("phrase")[0].addEventListener("input", optionPhraseChange);
+    newOption.getElementsByClassName("remove")[0].addEventListener("click", removeOption);
     optionEditor.appendChild(newOption);
     editorOptions.push(newOption);
   }
@@ -196,7 +204,7 @@ function updateNode(ref) {
     newOption.innerHTML = node.options[i].phrase;
     ref.getElementsByClassName("tail")[0].appendChild(newOption);
   }
-  drawArrows()
+  drawArrows();
 }
 
 function keyPressed(event) {
@@ -208,7 +216,7 @@ function keyPressed(event) {
         nodes.splice(index, 1);
         Focus.parentNode.removeChild(Focus);
         nodeReferences.splice(index, 1);
-        Focus = false
+        Focus = false;
         drawArrows();
       }
       else if (Focus.classList.contains("arrow")) {
@@ -222,10 +230,10 @@ function keyPressed(event) {
       }
     }
     else if (event.key == "n") {
-      newNode(event)
+      newNode(event);
     }
     else if (event.key == "a") {
-      newArrow(event)
+      newArrow(event);
     }
   }
 }
@@ -261,7 +269,7 @@ function mouseDown(event) {
   }
   if (editing && !event.target.closest('#Station') && !event.target.classList.contains("remove")) {
     document.getElementById("nodeEdit").style.display = "none";
-    editing = false
+    editing = false;
   }
 }
 
@@ -270,7 +278,7 @@ function mouseUp(event) {
     middleDownInEditor = false;
   }
   else if (event.button == 0) {
-    dragging = false
+    dragging = false;
   }
 }
 
@@ -291,9 +299,9 @@ function editorScroll(event) {
 //do things for when mouse moves
 function mouseMove(event) {
   //get dot to follow mouse
-  mouse_pos = {x:event.clientX, y:event.clientY}
+  mouse_pos = {x:event.clientX, y:event.clientY};
   if (line) {
-    drawArrows()
+    drawArrows();
   }
   if (mode == 1 || mode == 2 || mode == 3) {
     point.style.left = event.clientX + "px";
@@ -321,13 +329,13 @@ function positionNodes() {
 }
 
 function panFunc2(x, y) {
-  var xadj = x/unit
-  var yadj = y/unit
-  pan.x -= xadj
-  pan.y -= yadj
-  nodeContainer.style.top = -pan.y*unit + "px"
-  nodeContainer.style.left = -pan.x*unit + "px"
-  drawArrows()
+  var xadj = x/unit;
+  var yadj = y/unit;
+  pan.x -= xadj;
+  pan.y -= yadj;
+  nodeContainer.style.top = -pan.y*unit + "px";
+  nodeContainer.style.left = -pan.x*unit + "px";
+  drawArrows();
 }
 
 /*function panFunc(x, y) {
@@ -371,8 +379,8 @@ function anyClick(event) {
     point.style.display = "none";
     if (line) {
       mode = 0;
-      line = false
-      drawArrows()
+      line = false;
+      drawArrows();
     }
     mode = 0;
   }
@@ -380,16 +388,16 @@ function anyClick(event) {
     arrowAdder.classList.remove("tdButtons-active");
     point.style.display = "none";
     mode = 0;
-    line = false
-    drawArrows()
+    line = false;
+    drawArrows();
   }
   if (Focus && Focus.classList.contains("node") && !(event.target.closest(".node") == Focus)) {
-    Focus.classList.remove("node-focused")
-    Focus = false
+    Focus.classList.remove("node-focused");
+    Focus = false;
   }
   if (Focus && Focus.classList.contains("arrow") && !(event.target.closest(".arrow") == Focus)) {
-    Focus.classList.remove("arrow-focused")
-    Focus = false
+    Focus.classList.remove("arrow-focused");
+    Focus = false;
   }
 }
 
@@ -407,8 +415,8 @@ function editorClick(event) {
     nw.style.top = event.clientY + pan.y*unit + "px";
     nw.style.left = event.clientX + pan.x*unit +  "px";
     nw.style.transform = "translateY(-50%) translateX(-50%)";
-    titles += 1
-    nw.getElementsByClassName("nodeTitle")[0].innerHTML += titles
+    titles += 1;
+    nw.getElementsByClassName("nodeTitle")[0].innerHTML += titles;
     nw.addEventListener("dblclick", function(event) {
       if (mode == 0) {
         document.getElementById("nodeEdit").style.display = "flex";
@@ -416,24 +424,24 @@ function editorClick(event) {
         editorAppearance();
         updateNode(editing);
       }
-    })
+    });
     nodes.push({x:nwx, y:nwy, title:nw.getElementsByClassName("nodeTitle")[0].innerHTML, body:nw.getElementsByClassName("nodeBody")[0].innerHTML, options:[]});
     var options = nw.getElementsByClassName("option");
     for (i = 0; i < options.length; i++) {
       nodes[nodes.length-1].options.push({logic:"true", phrase:options[i].innerHTML, link:undefined});
     }
-    drawArrows()
+    drawArrows();
   }
   else if (mode == 2) {
     if (event.target.closest(".option")) {
       line = event.target.closest(".option");
       point.style.boxShadow = "0 0 10px 5px lightgreen";
-      mode = 3
+      mode = 3;
     }
     else {
       arrowAdder.classList.remove("tdButtons-active");
       point.style.display = "none";
-      mode = 0
+      mode = 0;
     }
   }
   else if (mode == 3) {
@@ -464,7 +472,7 @@ function canvas_arrow(context, fromx, fromy, tox, toy, option) {
     var nw = baseArrow.cloneNode(true);
     nw.style.display = "flex";
     arrowReferences.push(nw);
-    arrows.push()
+    arrows.push();
     main.appendChild(nw);
   }
   var dy = toy-fromy;
@@ -472,14 +480,14 @@ function canvas_arrow(context, fromx, fromy, tox, toy, option) {
   var angle = Math.atan2(dy, dx) - Math.PI*1.5;
   var length = Math.sqrt(Math.pow(dy, 2) + Math.pow(dx, 2));
   var line = arrowReferences[context];
-  arrows[context] = option
+  arrows[context] = option;
   line.getElementsByClassName("arrowLine")[0].style.height = "0";
   
   line.style.display = "flex";
   line.style.top = toy + "px";
   line.style.left = (tox - line.scrollWidth/2) + "px";
   line.style.transform = "rotate(" + angle + "rad)";
-  line.getElementsByClassName("arrowLine")[0].style.height = (length - 48*unit) + "px"
+  line.getElementsByClassName("arrowLine")[0].style.height = (length - 48*unit) + "px";
 }
 
 function pointerKill(title) {
@@ -513,12 +521,12 @@ function drawArrows() {
     else if (fromSide == "bottom") {
       canvas_arrow(arrowNumber, x + opt.scrollWidth/2, y + opt.scrollHeight, mouse_pos.x, mouse_pos.y, line);
     }
-    arrowNumber += 1
+    arrowNumber += 1;
   }
   for (i = 0; i < nodes.length; i++) {
     for (j = 0; j < nodes[i].options.length; j++) {
       if (nodes[i].options[j].link) {
-        var to = nodes.find(function(node) {return node.title == nodes[i].options[j].link;})
+        var to = nodes.find(function(node) {return node.title == nodes[i].options[j].link;});
         if (to) {
           var fromSide = calculateSides(nodes[i], to);
           var opt = nodeReferences[i].getElementsByClassName("option")[j];
@@ -554,18 +562,18 @@ function drawArrows() {
 function calculateSides(from, to) {
   if (Math.abs(from.x - to.x) < 160) {
     if (from.y - to.y > 0) {
-      return "top"
+      return "top";
     }
     else {
-      return "bottom"
+      return "bottom";
     }
   }
   else {
     if (from.x - to.x > 0) {
-      return "left"
+      return "left";
     }
     else {
-      return "right"
+      return "right";
     }
   }
 }
@@ -574,8 +582,8 @@ function newArrow(event) {
   mode = 2;
   nodeAdder.classList.remove("tdButtons-active");
   if (line) {
-    line = false
-    drawArrows()
+    line = false;
+    drawArrows();
   }
   point.style.left = mouse_pos.x + "px";
   point.style.top = mouse_pos.y + "px";
@@ -589,8 +597,8 @@ function newNode(event) {
   mode = 1;
   arrowAdder.classList.remove("tdButtons-active");
   if (line) {
-    line = false
-    drawArrows()
+    line = false;
+    drawArrows();
   }
   point.style.left = mouse_pos.x + "px";
   point.style.top = mouse_pos.y + "px";
@@ -615,19 +623,19 @@ function convertToJson() {
       objectified.nodes[nodes[i].title].options[option.phrase].logic = parsed;
     }
     var bodySplit = nodes[i].body.split("|");
-    var parsedBody = []
+    var parsedBody = [];
     for (j=0; j < bodySplit.length; j++) {
-      parsedBody.push(layerParse(bodySplit[j]))
+      parsedBody.push(layerParse(bodySplit[j]));
     }
-    objectified.nodes[nodes[i].title].body = parsedBody
+    objectified.nodes[nodes[i].title].body = parsedBody;
   }
-  return JSON.stringify(objectified)
+  return JSON.stringify(objectified);
 }
 
 function layerParse(text) {
   var broken = breakBrackets(text);
   if (!broken) {
-    return text.trim()
+    return text.trim();
   }
   var decommaed = breakCommas(broken[1]);
   var obj = {};
@@ -635,18 +643,18 @@ function layerParse(text) {
   for (i = 0; i < obj[broken[0]].length; i++) {
     obj[broken[0]][i] = layerParse(obj[broken[0]][i]);
   }
-  return obj
+  return obj;
 }
 
 function breakBrackets(text) {
   var firstBrkt = text.indexOf("(");
   var lastBrkt = text.lastIndexOf(")");
   if (firstBrkt == -1) {
-    return false
+    return false;
   }
   var first = text.substring(0, firstBrkt).trim();
   var mid = text.substring(firstBrkt + 1, lastBrkt);
-  return [first, mid]
+  return [first, mid];
 }
 
 function breakCommas(text) {
@@ -665,13 +673,13 @@ function breakCommas(text) {
     }
   }
   if (breakPoints.length == 1) {
-    return [text.trim()]
+    return [text.trim()];
   }
   else {
     for (i = 1; i < breakPoints.length; i++) {
-      notes.push(text.substring(breakPoints[i-1] + 1, breakPoints[i]).trim())
+      notes.push(text.substring(breakPoints[i-1] + 1, breakPoints[i]).trim());
     }
-    notes.push(text.substring(breakPoints[breakPoints.length-1] + 1).trim())
-    return notes
+    notes.push(text.substring(breakPoints[breakPoints.length-1] + 1).trim());
+    return notes;
   }
 }
