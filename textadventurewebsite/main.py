@@ -39,7 +39,10 @@ def options(ops):
                 if "logic" in ops[i] and func(ops[i]["logic"]):
                     shown.append(i)
                     print("(" + str(len(shown)) + ")", i)
-            selection = int(input(">")) -1
+            if not(len(shown) == 0):
+              selection = int(input(">")) -1
+            else:
+              exit()
             good = True
         except:
             good = False
@@ -63,8 +66,8 @@ def func(fnc):
         for i in fnc:
             params = []
             run = i
-            for i in fnc[i]:
-                params.append(func(i))
+            for i2 in fnc[i]:
+                params.append(func(i2))
             try:
                 return globals()[run](*params)
             except:
@@ -106,52 +109,53 @@ def divide(*args):
     except:
         return ""
 
-def inp(word):
+def inp(word, *q):
     return input(word)
 
-def set(k, v):
+def set(k, v, *q):
     vals[k] = v
     return ""
 
-def clear():
+def clear(*q):
     print("\n"*49)
     print("\n"*49)
     return ""
 
-def colour(n):
+def colour(n, *q):
     try:
         col.write(c[int(n)])
     except:
         pass
     return ""
 
-def equal(v1, v2):
+def equal(v1, v2, *q):
     try:
         return v1 == v2
     except:
         return False
 
-def nl():
-    return "\n"
+def nl(*q):
+    print("\n")
+    return ""
 
-def wait(s):
+def wait(s, *q):
     try:
         time.sleep(s)
     except:
         pass
     return ""
 
-def enter():
+def enter(*q):
     input("", end="\n")
     return ""
 
-def greater(a, b):
+def greater(a, b, *q):
     try:
         return a > b
     except:
         return False
 
-def less(a, b):
+def less(a, b, *q):
     try:
         return a < b
     except:
@@ -172,7 +176,7 @@ def OR(*args):
             return True
     return False
 
-def get(k):
+def get(k, *q):
     try:
         return vals[k]
     except:
