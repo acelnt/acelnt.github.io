@@ -612,7 +612,7 @@ function convertToJson() {
   objectified.meta = {};
   objectified.nodes = {};
   objectified.titles = titles;
-  for (i=0; i<nodes.length; i++) {
+  for (let i=0; i<nodes.length; i++) {
     objectified.meta[nodes[i].title] = {x:nodes[i].x, y:nodes[i].y, body:nodes[i].body, options:nodes[i].options};
     objectified.nodes[nodes[i].title] = {body: {}, options: {}};
     for (j=0; j<nodes[i].options.length; j++) {
