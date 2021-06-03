@@ -89,7 +89,8 @@ function Uploaded(event) {
 
 function loadData(data) {
   document.getElementById("FirstText").innerHTML = data.first;
-  title = data.titles;
+  titles = data.titles;
+  pan = data.pan;
   for (var i in data.meta) {
     var nw = baseNode.cloneNode(true);
     nodeReferences.push(nw);
@@ -612,6 +613,7 @@ function convertToJson() {
   objectified.meta = {};
   objectified.nodes = {};
   objectified.titles = titles;
+  objectified.pan = pan;
   for (let i=0; i<nodes.length; i++) {
     objectified.meta[nodes[i].title] = {x:nodes[i].x, y:nodes[i].y, body:nodes[i].body, options:nodes[i].options};
     objectified.nodes[nodes[i].title] = {body: {}, options: {}};
