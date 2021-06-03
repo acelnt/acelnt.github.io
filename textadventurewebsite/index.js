@@ -91,6 +91,8 @@ function Uploaded(event) {
     loadData(fileContent);
   };
   reader.readAsText(importedFile); 
+  drawArrows();
+  positionNodes();
 }
 
 function download(link) {
@@ -128,8 +130,6 @@ function loadData(data) {
     });
     nodes.push({x:data.meta[i].x, y:data.meta[i].y, title:i, body:data.meta[i].body, options:data.meta[i].options});
   }
-  drawArrows();
-  positionNodes();
 }
 
 function saveData (jsonData, fileName) {
