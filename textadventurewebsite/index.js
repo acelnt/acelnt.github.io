@@ -34,7 +34,9 @@ var lineRenderer = document.getElementById("lineRenderer");
   var jsonified = "";
   var exportButton = document.getElementById("export");
   var uploadButton = document.getElementById("upload"); 
-
+  var interpreterButton = document.getElementById("Interpreter");
+  
+  interpreterButton.addEventListener("click", downloadInterpreter);
   nodeAdder.addEventListener("click", newNode);
   arrowAdder.addEventListener("click", newArrow);
   document.addEventListener("mousemove", mouseMove);
@@ -49,6 +51,10 @@ var lineRenderer = document.getElementById("lineRenderer");
   bodyEditor.addEventListener("input", bodyEditorChanged);
   exportButton.addEventListener("click", Export);
   uploadButton.addEventListener("change", Uploaded);
+
+function downloadInterpreter() {
+  download("main.py")
+}
 
 function begin() {
   nodes = [];
@@ -85,6 +91,18 @@ function Uploaded(event) {
     loadData(fileContent);
   };
   reader.readAsText(importedFile); 
+}
+
+function download(link) {
+  var element = document.createElement('a');
+  element.setAttribute('href', link);
+
+  element.style.display = 'none';
+  document.body.appendChild(element);
+
+  element.click();
+
+  document.body.removeChild(element);
 }
 
 function loadData(data) {
@@ -127,12 +145,12 @@ function saveData (jsonData, fileName) {
 }
 
 function Export() {
-  saveData(convertToJson(), "TextAdventure.json");
+  saveData(convertToJson(), "TA.json");
 }
 
 function bodyEditorChanged() {
   var node = nodes[nodeReferences.indexOf(editing)];
-  node.body = bodyEditor.innerHTML;
+  node.body = bodyEditor.textContent;
   updateNode(editing);
 }
 
@@ -141,11 +159,11 @@ function titleEditorChanged(event) {
   for (i = 0; i < nodes.length; i++) {
     for (j = 0; j < nodes[i].options.length; j ++) {
       if (nodes[i].options[j].link == node.title) {
-        nodes[i].options[j].link = titleEditor.innerHTML;
+        nodes[i].options[j].link = titleEditor.textContent;
       } 
     }
   }
-  node.title = titleEditor.innerHTML;
+  node.title = titleEditor.textContent;
   
   updateNode(editing);
 }
@@ -159,13 +177,13 @@ function addOption(event) {
 
 function optionLogicChange(event) {
   var node = nodes[nodeReferences.indexOf(editing)];
-  node.options[editorOptions.indexOf(this.parentNode.parentNode)].logic = this.innerHTML;
+  node.options[editorOptions.indexOf(this.parentNode.parentNode)].logic = this.textContent;
   updateNode(editing);
 }
 
 function optionPhraseChange(event) {
   var node = nodes[nodeReferences.indexOf(editing)];
-  node.options[editorOptions.indexOf(this.parentNode.parentNode)].phrase = this.innerHTML;
+  node.options[editorOptions.indexOf(this.parentNode.parentNode)].phrase = this.textContent;
   updateNode(editing);
 }
 
@@ -178,15 +196,15 @@ function removeOption(event) {
 
 function editorAppearance() {
   var node = nodes[nodeReferences.indexOf(editing)];
-  titleEditor.innerHTML = node.title;
-  bodyEditor.innerHTML = node.body;
-  optionEditor.innerHTML = "";
+  titleEditor.textContent = node.title;
+  bodyEditor.textContent = node.body;
+  optionEditor.textContent = "";
   editorOptions = [];
   for (i = 0; i < node.options.length; i++) {
     var newOption = baseoptionItem.cloneNode(true);
-    newOption.getElementsByClassName("logic")[0].innerHTML = node.options[i].logic;
+    newOption.getElementsByClassName("logic")[0].textContent = node.options[i].logic;
     newOption.getElementsByClassName("logic")[0].addEventListener("input", optionLogicChange);
-    newOption.getElementsByClassName("phrase")[0].innerHTML = node.options[i].phrase;
+    newOption.getElementsByClassName("phrase")[0].textContent = node.options[i].phrase;
     newOption.getElementsByClassName("phrase")[0].addEventListener("input", optionPhraseChange);
     newOption.getElementsByClassName("remove")[0].addEventListener("click", removeOption);
     optionEditor.appendChild(newOption);
@@ -637,7 +655,7 @@ function convertToJson() {
 function layerParse(text) {
   var broken = breakBrackets(text);
   if (!broken) {
-    return text.trim();
+    return text;
   }
   var decommaed = breakCommas(broken[1]);
   var obj = {};

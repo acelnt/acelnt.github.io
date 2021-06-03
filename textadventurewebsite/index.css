@@ -171,6 +171,23 @@ body {
   cursor: pointer;
 }
 
+#Interpreter {
+  position:relative;
+  margin-top: 15%;
+  width:73.3%;
+  padding-top:30%;
+  height:0;
+  border-radius: 24vw;
+  display:flex;
+  flex-direction: column;
+  background-color: rgb(78, 243, 237);
+}
+
+#Interpreter:hover {
+  background-color: rgb(71, 219, 214);
+  cursor: pointer;
+}
+
 #FirstText:empty::before {
   content:"First Node";
   color:gray
