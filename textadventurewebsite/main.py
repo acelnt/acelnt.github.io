@@ -2,6 +2,7 @@ import json
 import sys
 import time
 import random
+import os
 
 try:
     col = sys.stdout.shell
@@ -11,7 +12,27 @@ except:
 c = ["SYNC", "stdin", "BUILTIN", "STRING", "console", "COMMENT", "stdout", "TODO", "stderr", "hit", "DEFINITION", "KEYWORD", "ERROR", "sel"]
 
 Path = input("Enter path to Json: \n>")
-file = open(Path, "r")
+if Path == "":
+    files = os.listdir()
+    number = 0
+    file = "TA.json"
+    for i in files:
+        if "TA" in i:
+            if not i == "TA.json":
+                try:
+                    num = int(i[4:-6])
+                    if num > number:
+                        number = num
+                        file = i
+                except:
+                    pass
+    Path = file
+
+print(Path)
+if Path in os.listdir():    
+    file = open(Path, "r")
+else:
+    exit()
 data = json.loads(file.read())
 
 node = data["first"]
