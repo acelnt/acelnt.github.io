@@ -45,7 +45,7 @@ var lineRenderer = document.getElementById("lineRenderer");
   document.addEventListener("mousedown", mouseDown);
   document.addEventListener("mouseup", mouseUp);
   main.addEventListener("wheel", editorScroll);
-  document.addEventListener("keypress", keyPressed);
+  document.addEventListener("keydown", keyPressed);
   optionAdder.addEventListener("click", addOption);
   titleEditor.addEventListener("input", titleEditorChanged);
   bodyEditor.addEventListener("input", bodyEditorChanged);
