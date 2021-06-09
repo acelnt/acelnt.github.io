@@ -228,7 +228,7 @@ function updateNode(ref) {
 
 function keyPressed(event) {
   if (!editing && !(document.getElementById("FirstText") == document.activeElement)) {
-    if (event.key == "Delete" && Focus) {
+    if ((event.key == "Delete"||event.key == "Backspace") && Focus) {
       if (Focus.classList.contains("node")) {
         var index = nodeReferences.indexOf(Focus);
         pointerKill(nodes[index].title);
