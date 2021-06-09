@@ -28,7 +28,6 @@ if Path == "":
                     pass
     Path = file
 
-print(Path)
 if Path in os.listdir():    
     file = open(Path, "r")
 else:
