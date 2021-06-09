@@ -146,7 +146,7 @@ def wait(s, *q):
     return ""
 
 def enter(*q):
-    input("", end="\n")
+    input("")
     return ""
 
 def greater(a, b, *q):
