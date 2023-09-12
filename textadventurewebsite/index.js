@@ -34,9 +34,9 @@ var lineRenderer = document.getElementById("lineRenderer");
   var jsonified = "";
   var exportButton = document.getElementById("export");
   var uploadButton = document.getElementById("upload"); 
-  var interpreterButton = document.getElementById("Interpreter");
+  var engineButton = document.getElementById("engine");
   
-  interpreterButton.addEventListener("click", downloadInterpreter);
+  engineButton.addEventListener("click", downloadEngine);
   nodeAdder.addEventListener("click", newNode);
   arrowAdder.addEventListener("click", newArrow);
   document.addEventListener("mousemove", mouseMove);
@@ -52,7 +52,7 @@ var lineRenderer = document.getElementById("lineRenderer");
   exportButton.addEventListener("click", Export);
   uploadButton.addEventListener("change", Uploaded);
 
-function downloadInterpreter() {
+function downloadEngine() {
   download("main.py")
 }
 
